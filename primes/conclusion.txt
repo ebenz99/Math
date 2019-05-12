@@ -1,0 +1,1 @@
+My conclusion that has assuredly been found millions of times before me is that the number of primes for each digit length follows an exponential pattern
