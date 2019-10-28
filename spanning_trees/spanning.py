@@ -1,5 +1,5 @@
 class FirstSolution:
-    def sumOfDistancesInTree(self, N: int, edges: List[List[int]]) -> List[int]:
+    def sumOfDistancesInTree(self, N, edges):
         if(len(edges)) < 1:
             return [0]
         dic = {}
@@ -45,7 +45,7 @@ class FirstSolution:
         return accs
 
 class SecondSolution:
-    def sumOfDistancesInTree(self, N: int, edges: List[List[int]]) -> List[int]:
+    def sumOfDistancesInTree(self, N, edges):
         if(len(edges)) < 1:
             return [0]
         dic = {}
