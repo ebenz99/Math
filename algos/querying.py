@@ -1,6 +1,5 @@
 import re
 class Solution(object):
-    import re
     def spellchecker(self, wordlist, queries):
         """
         :type wordlist: List[str]
