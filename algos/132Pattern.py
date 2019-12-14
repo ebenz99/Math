@@ -21,6 +21,8 @@ class Solution(object):
         dp = [m for num in nums]
         dic = {}
 
+        s = set(nums)
+
         i = 0
         minNum = m
         while i < l:
@@ -35,6 +37,7 @@ class Solution(object):
         	i+=1
 
         i = 0
+        sl = len(s)
         while i < l:
         	j = i
         	while j < l:
