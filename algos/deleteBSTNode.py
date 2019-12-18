@@ -11,6 +11,13 @@ class Solution(object):
         :type key: int
         :rtype: TreeNode
         """
+        def contains(root,key):
+            if root == None:
+                return False
+            f1 = contains(root.left,key)
+            f3 = (root.val == key)
+            f2 = contains(root.right,key)
+            return f1 or f2 or f3
 
         def findParent(root,node):
             if root == node:
@@ -82,7 +89,16 @@ class Solution(object):
                     else: #neither are none
                         root = replace(curr,getSuccessor(root,curr),root)
                 else:
-                    root = replace(curr,getSuccessor(root,root),root)
+                    if curr.left == None:
+                        if curr.right == None:
+                            return None
+                        else:
+                            return curr.right
+                    elif curr.right == None:
+                        return curr.left
+                    else:
+                        root = replace(curr,getSuccessor(root,root),root)
+                        return root
 
             else:
                 if key < curr.val:
@@ -90,7 +106,9 @@ class Solution(object):
                 else:
                     rem(curr.right,curr,key,root)
             return root
-        return rem(root,None,key,root)
+        if contains(root,key):
+            return rem(root,None,key,root)
+        return root
 
 def constructTree(root,val):
     if root == None:
@@ -114,6 +132,9 @@ def printTree(root):
     printTree(root.left)
     print(root.val)
     printTree(root.right)
+
+
+
 
 
 
