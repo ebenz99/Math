@@ -32,51 +32,99 @@ def getAllLeafPaths(root,paths,currPath):
 		paths.append(currPath)
 		return
 	getAllLeafPaths(root.left,paths,currPath+'0')
-	getAllLeafPaths(root.left,paths,currPath+'1')
+	getAllLeafPaths(root.right,paths,currPath+'1')
 
 
 def printTree(root):
 	if root == None:
+		print("None")
 		return
 	print(root.val)
 	printTree(root.left)
 	printTree(root.right)
 
+def bfsPrint(root):
+	level = [root]
+	items = ""
+	flag = True
+	while flag == True:
+		flag = False
+		for item in level:
+			if item != None:
+				flag = True
+				break
+		nl = []
+		for thing in level:
+			if thing == None:
+				items += "N"
+				items += ","
+				continue
+			items += str(thing.val)
+			items += ","
+			#if thing.left != None:
+			nl.append(thing.left)
+			#if thing.right != None:
+			nl.append(thing.right)
+		items+="\n"
+		level = nl
+	print(items)
 
 
-dic = {}
-
-vals = [x for x in range(4,0,-1)]
 stack = []
-first = TreeNode(vals.pop())
+first = TreeNode(0)
 stack.append((first,'',1))
-maxNodes = 7
+maxNodes = 19
 
 trees = []
 treepaths = set()
 
 while stack:
-	root, path, numNodes = stack.pop()
-	# print("Path is %s" % path)
-	# printTree(root)
-	# print("\n\n")
+	ogroot, path, numNodes = stack.pop()
 	ps = []
-	getAllLeafPaths(root,ps,'')
+	getAllLeafPaths(ogroot,ps,'')
 	tup = tuple(ps)
-	print(tup)
+	#print(tup)
 	if tup in treepaths:
 		continue
 	else:
 		treepaths.add(tup)
+	#bfsPrint(ogroot)
 	if numNodes < maxNodes:
 		for path in tup:
+			root = deepcopy(ogroot)
 			leaf = getLeaf(root,path)
-			leaf.left = TreeNode(0)
-			leaf.right = TreeNode(1)
-			stack.append((deepcopy(root),path+'0',numNodes+2))
-			stack.append((deepcopy(root),path+'1',numNodes+2))
+			leaf.left = TreeNode(numNodes+1)
+			leaf.right = TreeNode(numNodes+2)
+			stack.append((root,path+'0',numNodes+2))
+			stack.append((root,path+'1',numNodes+2))
 	else:
-		trees.append(root)
+		trees.append(ogroot)
 
-print(len(trees))
+print(trees)
+# for tree in trees:
+# 	bfsPrint(tree)
+
+# null = None
+# a = [[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0,0,0],[0,0,0,null,null,0,0,0,0,0,0],[0,0,0,null,null,0,0,0,0,0,0],[0,0,0,0,0,0,0,null,null,null,null,null,null,0,0],[0,0,0,0,0,0,0,null,null,null,null,null,null,0,0],[0,0,0,0,0,0,0,null,null,0,0],[0,0,0,0,0,0,0,null,null,0,0],[0,0,0,0,0,0,0,null,null,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+# b = [[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,null,null,0,0,0,0],[0,0,0,null,null,0,0,0,0,0,0],[0,0,0,null,null,0,0,0,0,null,null,null,null,0,0],[0,0,0,null,null,0,0,0,0,null,null,0,0],[0,0,0,0,0,0,0,null,null,null,null,null,null,0,0],[0,0,0,0,0,0,0,null,null,null,null,0,0],[0,0,0,0,0,0,0,null,null,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,null,null,null,null,0,0,null,null,0,0],[0,0,0,0,0,null,null,null,null,0,0,0,0],[0,0,0,0,0,null,null,0,0,0,0],[0,0,0,0,0,null,null,0,0,null,null,null,null,0,0],[0,0,0,0,0,null,null,0,0,null,null,0,0]]
+
+# #print(len(trees))
+# print(len(a))
+# print(len(b))
+
+# at = []
+# for item in a:
+# 	at.append(tuple(item))
+
+# bt = []
+# for item in b:
+# 	bt.append(tuple(item))
+
+# aset = set(at)
+# print(aset)
+# bset = set(bt)
+
+# c = aset-bset
+# print(len(c))
+
 
