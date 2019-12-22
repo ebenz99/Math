@@ -69,40 +69,50 @@ def bfsPrint(root):
 		level = nl
 	print(items)
 
+def newPaths(paths,currPath):
+	newpaths = []
+	for path in paths:
+		if path.startswith(currPath):
+			newpaths.append(path+'0')
+			newpaths.append(path+'1')
+		else:
+			newpaths.append(path)
+	#print(newpaths)
+	return tuple(newpaths)
+
 
 stack = []
 first = TreeNode(0)
-stack.append((first,'',1))
+stack.append((first,'',1,("",)))
 maxNodes = 19
 
 trees = []
 treepaths = set()
 
 while stack:
-	ogroot, path, numNodes = stack.pop()
-	ps = []
-	getAllLeafPaths(ogroot,ps,'')
-	tup = tuple(ps)
-	#print(tup)
+	ogroot, path, numNodes, paths = stack.pop()
+	# ps = []						#nec
+	# getAllLeafPaths(ogroot,ps,'')	#nec
+	# tup = tuple(ps)				#nec
+	tup = paths
 	if tup in treepaths:
 		continue
 	else:
 		treepaths.add(tup)
-	#bfsPrint(ogroot)
 	if numNodes < maxNodes:
 		for path in tup:
 			root = deepcopy(ogroot)
 			leaf = getLeaf(root,path)
 			leaf.left = TreeNode(numNodes+1)
 			leaf.right = TreeNode(numNodes+2)
-			stack.append((root,path+'0',numNodes+2))
-			stack.append((root,path+'1',numNodes+2))
+			stack.append((root,path+'0',numNodes+2,newPaths(paths,path)))
+			stack.append((root,path+'1',numNodes+2,newPaths(paths,path)))
 	else:
 		trees.append(ogroot)
 
-print(trees)
-# for tree in trees:
-# 	bfsPrint(tree)
+#print(trees)
+for tree in trees:
+	bfsPrint(tree)
 
 # null = None
 # a = [[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0,0,0],[0,0,0,null,null,0,0,0,0,0,0],[0,0,0,null,null,0,0,0,0,0,0],[0,0,0,0,0,0,0,null,null,null,null,null,null,0,0],[0,0,0,0,0,0,0,null,null,null,null,null,null,0,0],[0,0,0,0,0,0,0,null,null,0,0],[0,0,0,0,0,0,0,null,null,0,0],[0,0,0,0,0,0,0,null,null,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
